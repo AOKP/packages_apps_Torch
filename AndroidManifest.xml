@@ -1,0 +1,28 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.aokp.Torch"
+    android:versionCode="100"
+    android:versionName="1.0.0" >
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <application android:name=".TorchApp" android:persistent="true" android:icon="@drawable/icon" android:label="@string/app_name" >
+        <activity android:name=".TorchActivity" android:label="@string/app_name" android:theme="@style/Theme.Transparent"
+            android:launchMode="singleTask" android:windowSoftInputMode="adjustPan" android:noHistory="true" android:excludeFromRecents="true" >
+            <!-- Uncomment the following intent-filter to have the app show up in the app drawer
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+             -->
+        </activity>
+
+    	<receiver android:name=".TorchReceiver">
+			<intent-filter android:priority="1000">
+                <action android:name="com.android.systemui.INTENT_TORCH_ON"/>
+                <action android:name="com.android.systemui.INTENT_TORCH_OFF"/>
+            	<action android:name="com.android.systemui.INTENT_TORCH_TOGGLE" />
+			</intent-filter>
+		</receiver>
+    </application>
+</manifest>

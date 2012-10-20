@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">AOKP Torch</string>
+	
+	<color name="black">#ff000000</color>
+	<color name="blue">#ff2f5375</color>
+	<color name="disabled">#44c0c0c0</color>
+	<color name="green">#ff209333</color>
+	<color name="grey">#99000000</color>
+	<color name="grey2">#ccc0c0c0</color>
+	<color name="grey3">#55c0c0c0</color>
+	<color name="grey4">#ffc0c0c0</color>
+	<color name="read">#aa2f5375</color>
+	<color name="red">#f11111</color>
+	<color name="white">#ffffffff</color>
+	<color name="unread">#ff000000</color>
+	<color name="transparent">#00000000</color>
+	<color name="loading_bg">#85000000</color>
+</resources>
