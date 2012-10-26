@@ -8,7 +8,6 @@ import android.view.SurfaceHolder;
 
 public class TorchApp extends Application {
     public static final String TAG = "AOKPTorchApp";
-    public static final String KEY_TORCH_ON = "torch_on";
 
     public CameraManager mCamManager = new CameraManager();
 
@@ -45,7 +44,7 @@ public class TorchApp extends Application {
                     mCamera.setPreviewDisplay(holder);
                     mCamera.startPreview();
                     mCamera.unlock();
-                    Settings.System.putBoolean(getContentResolver(), KEY_TORCH_ON, true);
+                    Settings.System.putBoolean(getContentResolver(), Settings.System.TORCH_STATE, true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -61,7 +60,7 @@ public class TorchApp extends Application {
                     mCamera.setParameters(params);
                     mCamera.stopPreview();
                     mCamera.unlock();
-                    Settings.System.putBoolean(getContentResolver(), KEY_TORCH_ON, false);
+                    Settings.System.putBoolean(getContentResolver(), Settings.System.TORCH_STATE, false);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -80,7 +79,7 @@ public class TorchApp extends Application {
                         mCamera.stopPreview();
                         mCamera.unlock();
                         releaseCam();
-                        Settings.System.putBoolean(getContentResolver(), KEY_TORCH_ON, false);
+                        Settings.System.putBoolean(getContentResolver(), Settings.System.TORCH_STATE, false);
                     } else {
                         mCamera.stopPreview();
                         params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
@@ -88,7 +87,7 @@ public class TorchApp extends Application {
                         mCamera.setPreviewDisplay(holder);
                         mCamera.startPreview();
                         mCamera.unlock();
-                        Settings.System.putBoolean(getContentResolver(), KEY_TORCH_ON, true);
+                        Settings.System.putBoolean(getContentResolver(), Settings.System.TORCH_STATE, true);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
