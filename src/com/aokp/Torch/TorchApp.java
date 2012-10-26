@@ -54,7 +54,7 @@ public class TorchApp extends Application {
 
         public void turnOff() {
             connectToCam();
-            if (cam != null) {
+            if (mCamera != null) {
                 try {
                     Camera.Parameters params = mCamera.getParameters();
                     params.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
