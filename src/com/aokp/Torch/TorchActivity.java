@@ -1,3 +1,4 @@
+
 package com.aokp.Torch;
 
 import android.os.Bundle;
@@ -6,47 +7,51 @@ import android.view.SurfaceView;
 import android.app.Activity;
 
 public class TorchActivity extends Activity implements SurfaceHolder.Callback {
-	public static final String TAG = "AOKPTorchAct";
-    public static final String TORCH_ON = "com.android.systemui.INTENT_TORCH_ON";
-    public static final String TORCH_OFF = "com.android.systemui.INTENT_TORCH_OFF";
-    public static final String TORCH_TOGGLE = "com.android.systemui.INTENT_TORCH_TOGGLE";
-    
-	private TorchApp app;
+    public static final String TAG = "AOKPTorchAct";
+    public static final String TORCH_ON = "com.aokp.torch.INTENT_TORCH_ON";
+    public static final String TORCH_OFF = "com.aokp.torch.INTENT_TORCH_OFF";
+    public static final String TORCH_TOGGLE = "com.aokp.torch.INTENT_TORCH_TOGGLE";
+
+    private TorchApp mApplication;
     private SurfaceView mSurfaceView;
     private SurfaceHolder mSurfaceHolder;
-    private String act;
-    
+    private String mAction;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
-        app = (TorchApp)getApplicationContext();
-        
-        act = getIntent().getAction();
-        if(act == null){
-        	act = TORCH_TOGGLE;
+
+        mApplication = (TorchApp) getApplicationContext();
+
+        mAction = getIntent().getAction();
+        if (mAction == null) {
+            mAction = TORCH_TOGGLE;
         }
-        //Log.i(TAG, act);
-        mSurfaceView = (SurfaceView)findViewById(R.id.surface_camera);
+        // Log.i(TAG, act);
+        mSurfaceView = (SurfaceView) findViewById(R.id.surface_camera);
         mSurfaceHolder = mSurfaceView.getHolder();
         mSurfaceHolder.addCallback(this);
         mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     }
 
+    @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
-        if(act.equals(TORCH_ON)){
-        	app.camMan.turnOn(holder);
-        }else if(act.equals(TORCH_OFF)){
-            app.camMan.turnOff();
-        }else{
-        	app.camMan.toggle(holder);
+        if (mAction.equals(TORCH_ON)) {
+            mApplication.mCamManager.turnOn(holder);
+        } else if (mAction.equals(TORCH_OFF)) {
+            mApplication.mCamManager.turnOff();
+        } else {
+            mApplication.mCamManager.toggle(holder);
         }
-    	finish();
+        finish();
     }
 
-    public void surfaceDestroyed(SurfaceHolder holder) {}
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+    }
 
-	@Override
-	public void surfaceCreated(SurfaceHolder holder) {}
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+    }
 }
