@@ -3,8 +3,8 @@ package com.aokp.Torch;
 
 import android.app.Application;
 import android.hardware.Camera;
+import android.graphics.SurfaceTexture;
 import android.provider.Settings;
-import android.view.SurfaceHolder;
 
 public class TorchApp extends Application {
     public static final String TAG = "AOKPTorchApp";
@@ -33,17 +33,16 @@ public class TorchApp extends Application {
             }
         }
 
-        public void turnOn(SurfaceHolder holder) {
+        public void turnOn(SurfaceTexture texture) {
             connectToCam();
             if (mCamera != null) {
                 try {
                     mCamera.stopPreview();
+                    mCamera.setPreviewTexture(texture);
+                    mCamera.startPreview();
                     Camera.Parameters params = mCamera.getParameters();
                     params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
                     mCamera.setParameters(params);
-                    mCamera.setPreviewDisplay(holder);
-                    mCamera.startPreview();
-                    mCamera.unlock();
                     Settings.System.putBoolean(getContentResolver(), Settings.System.TORCH_STATE, true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -59,39 +58,11 @@ public class TorchApp extends Application {
                     params.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
                     mCamera.setParameters(params);
                     mCamera.stopPreview();
-                    mCamera.unlock();
                     Settings.System.putBoolean(getContentResolver(), Settings.System.TORCH_STATE, false);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 releaseCam();
-            }
-        }
-
-        public void toggle(SurfaceHolder holder) {
-            connectToCam();
-            if (mCamera != null) {
-                try {
-                    Camera.Parameters params = mCamera.getParameters();
-                    if (Camera.Parameters.FLASH_MODE_TORCH.equals(params.getFlashMode())) {
-                        params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                        mCamera.setParameters(params);
-                        mCamera.stopPreview();
-                        mCamera.unlock();
-                        releaseCam();
-                        Settings.System.putBoolean(getContentResolver(), Settings.System.TORCH_STATE, false);
-                    } else {
-                        mCamera.stopPreview();
-                        params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-                        mCamera.setParameters(params);
-                        mCamera.setPreviewDisplay(holder);
-                        mCamera.startPreview();
-                        mCamera.unlock();
-                        Settings.System.putBoolean(getContentResolver(), Settings.System.TORCH_STATE, true);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
         }
 

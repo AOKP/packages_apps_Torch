@@ -1,21 +1,21 @@
 
 package com.aokp.Torch;
 
-import android.os.Bundle;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.app.Activity;
+import javax.microedition.khronos.opengles.GL10;
 
-public class TorchActivity extends Activity implements SurfaceHolder.Callback {
+import android.app.Activity;
+import android.graphics.SurfaceTexture;
+import android.provider.Settings;
+import android.os.Bundle;
+
+import android.opengl.GLES11Ext;
+import android.opengl.GLES20;
+
+public class TorchActivity extends Activity {
     public static final String TAG = "AOKPTorchAct";
-    public static final String TORCH_ON = "com.aokp.torch.INTENT_TORCH_ON";
-    public static final String TORCH_OFF = "com.aokp.torch.INTENT_TORCH_OFF";
-    public static final String TORCH_TOGGLE = "com.aokp.torch.INTENT_TORCH_TOGGLE";
 
     private TorchApp mApplication;
-    private SurfaceView mSurfaceView;
-    private SurfaceHolder mSurfaceHolder;
-    private String mAction;
+    private SurfaceTexture mSurfaceTexture;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,34 +24,31 @@ public class TorchActivity extends Activity implements SurfaceHolder.Callback {
 
         mApplication = (TorchApp) getApplicationContext();
 
-        mAction = getIntent().getAction();
-        if (mAction == null) {
-            mAction = TORCH_TOGGLE;
-        }
-        // Log.i(TAG, act);
-        mSurfaceView = (SurfaceView) findViewById(R.id.surface_camera);
-        mSurfaceHolder = mSurfaceView.getHolder();
-        mSurfaceHolder.addCallback(this);
-        mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-    }
+        int[] textures = new int[1];
+            GLES20.glGenTextures(1, textures, 0);
+            GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES,
+                    textures[0]);
+            GLES20.glTexParameterf(
+                    GLES11Ext.GL_TEXTURE_EXTERNAL_OES,
+                    GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
+            GLES20.glTexParameterf(
+                    GLES11Ext.GL_TEXTURE_EXTERNAL_OES,
+                    GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
+            GLES20.glTexParameteri(
+                    GLES11Ext.GL_TEXTURE_EXTERNAL_OES,
+                    GL10.GL_TEXTURE_WRAP_S, GL10.GL_CLAMP_TO_EDGE);
+            GLES20.glTexParameteri(
+                    GLES11Ext.GL_TEXTURE_EXTERNAL_OES,
+                    GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE);
+        mSurfaceTexture = new SurfaceTexture(textures[0]);
 
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
-        if (mAction.equals(TORCH_ON)) {
-            mApplication.mCamManager.turnOn(holder);
-        } else if (mAction.equals(TORCH_OFF)) {
-            mApplication.mCamManager.turnOff();
+        boolean torchOn = Settings.System.getBoolean(getContentResolver(), Settings.System.TORCH_STATE, false);
+
+        if (!torchOn) {
+            mApplication.mCamManager.turnOn(mSurfaceTexture);
         } else {
-            mApplication.mCamManager.toggle(holder);
+            mApplication.mCamManager.turnOff();
         }
         finish();
-    }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-    }
-
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
     }
 }
