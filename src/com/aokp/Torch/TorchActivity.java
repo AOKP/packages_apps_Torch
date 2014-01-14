@@ -25,8 +25,8 @@ public class TorchActivity extends Activity {
         setContentView(R.layout.main);
         mUseCameraInterface = getResources().getBoolean(R.bool.useCameraInterface);
         mHasNoHardwareFlash = getResources().getBoolean(R.bool.hasNoHardwareFlash);
-        boolean torchStatus = Settings.System.getBoolean(getContentResolver(),
-                Settings.System.TORCH_STATE, false);
+        boolean torchStatus = Settings.AOKP.getBoolean(getContentResolver(),
+                Settings.AOKP.TORCH_STATE, false);
         mTorchApp = (TorchApp) getApplicationContext();
         if (mHasNoHardwareFlash) {
             Intent intent = new Intent(this, WhiteScreen.class);
