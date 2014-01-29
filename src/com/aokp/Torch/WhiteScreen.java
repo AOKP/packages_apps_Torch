@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.provider.Settings;
 
+import com.aokp.Torch.R;
+
 public class WhiteScreen extends Activity {
 
     private int brightness = 0;
@@ -12,7 +14,8 @@ public class WhiteScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.whitescreen);
-        setTheme(R.style.Theme_WhiteScreen);
+        setTheme(R.style.ThemeWhiteScreen);
+        setImmersive(true);
 
         try {
             brightness = Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
@@ -29,6 +32,7 @@ public class WhiteScreen extends Activity {
     @Override
     protected void onDestroy () {
         super.onDestroy();
+        setImmersive(false);
         if (brightness > 0) {
             Settings.System.putInt(getContentResolver(),
                     android.provider.Settings.System.SCREEN_BRIGHTNESS, brightness);
@@ -38,6 +42,7 @@ public class WhiteScreen extends Activity {
     @Override
     public void finish() {
         super.finish();
+        setImmersive(false);
         if (brightness > 0) {
             Settings.System.putInt(getContentResolver(),
                     android.provider.Settings.System.SCREEN_BRIGHTNESS, brightness);
