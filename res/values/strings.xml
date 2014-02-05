@@ -18,4 +18,6 @@
     <color name="transparent">#00000000</color>
     <color name="loading_bg">#85000000</color>
 
+    <string name="toast_whitescreen">Press volume keys to exit</string>
+
 </resources>
