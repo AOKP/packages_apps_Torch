@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AOKP 电筒</string>
+    <string name="toast_whitescreen">按音量键退出</string>
+
+</resources>
