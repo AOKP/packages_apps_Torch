@@ -31,6 +31,8 @@
     <string name="flashDevice">/sys/class/leds/flashlight/brightness</string>
     <!-- Full path to the sysfs luminosity -->
     <string name="flashDeviceLuminosity"></string>
+    <!-- Full path to the sysfs of 2nd luminosity -->
+    <string name="flashDeviceLuminosity2"></string>
 
     <!-- Off setting -->
     <integer name="valueOff">0</integer>
